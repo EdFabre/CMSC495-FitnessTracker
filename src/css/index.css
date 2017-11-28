@@ -1,0 +1,19 @@
+body {
+  margin: 0 auto;
+  padding: 50px;
+  background: url(../assets/background/DarkWood.jpg);
+  background-size: cover;
+  font-family: sans-serif;
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+.fixed-panel {
+  min-height: 500px;
+  max-height: 500px;
+}
