@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: main.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-11-22T12:48:52-05:00
+ * @Last modified time: 2017-12-09T23:14:13-05:00
  */
 
 /* global document */
@@ -79,12 +79,12 @@ export default class PanelMain extends React.Component {
             'secondpanelcontent'));
         break;
       case 4:
-        ReactDOM.render(
-          <Fader><Panel style={{
-            height: '500px',
-          }}
-          ><ExcerciseScreen /></Panel></Fader>,
-          document.getElementById('secondpanelcontent'));
+        this.setState({
+          key: 3,
+        });
+        ReactDOM.render(<Fader><Panel><ExcerciseScreen /></Panel></Fader>,
+          document.getElementById(
+            'secondpanelcontent'));
         break;
       case 5:
         ReactDOM.render(
@@ -138,7 +138,7 @@ export default class PanelMain extends React.Component {
             <Tab eventKey={1} title="Dashboard" />
             <Tab eventKey={2} title="Profile" />
             <Tab eventKey={3} title="Schedule" />
-            <Tab eventKey={4} title="Excercise" />
+            <Tab eventKey={4} title="Exercise" />
             <Tab eventKey={5} title="Nutrition" />
             <Tab eventKey={6} title="Logout" />
           </Tabs>
