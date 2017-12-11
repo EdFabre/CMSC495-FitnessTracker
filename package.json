@@ -37,7 +37,6 @@
       },
       "electronWinstallerConfig": {
         "name": "Fittrac",
-        "outputDirectory": "C:/Users/%username%/Desktop/Releases",
         "setupExe": "FittracSetup.exe",
         "setupIcon": "src/assets/icons/win/fittrac.ico"
       },
