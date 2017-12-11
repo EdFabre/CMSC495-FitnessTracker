@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_excercise.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-10T15:36:56-05:00
+ * @Last modified time: 2017-12-10T20:43:24-05:00
  */
 
 /* eslint-env browser */
@@ -24,7 +24,6 @@ import CalendarScreen from '../../calendar/screens/screen_calendar';
 const logger = require('rekuire')('loggingManager.js').logger;
 const THISFILE = require('path').basename(__filename).toUpperCase();
 
-// TODO: Add some logging
 function caloriesBurnedPerMinute(excercise) {
   switch (excercise) {
     case 'Walking':
