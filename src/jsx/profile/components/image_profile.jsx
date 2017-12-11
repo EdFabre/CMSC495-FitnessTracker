@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: image_profile.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-11-21T17:29:44-05:00
+ * @Last modified time: 2017-12-10T15:27:33-05:00
  */
 
 /* eslint-env browser */
@@ -34,9 +34,12 @@ export default class ImageProfile extends React.Component {
       file: '',
       imagePreviewUrl: {},
     };
-    this.initProfileImage();
     this.onDrop = this.onDrop.bind(this);
   }
+  componentDidMount() {
+    this.initProfileImage();
+  }
+  componentWillUnmount() {}
 
   onDrop(e) {
     const file = e[0];
@@ -50,7 +53,9 @@ export default class ImageProfile extends React.Component {
       upload_preset: config.upload_preset,
     }, (error, result) => {
       ipcRenderer.send('update-profile-info', {
-        image: result.secure_url,
+        data: {
+          image: result.secure_url,
+        },
       });
       this.setState({
         file,

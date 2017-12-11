@@ -4,14 +4,14 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_profile.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-11-21T17:30:17-05:00
+ * @Last modified time: 2017-12-09T13:15:39-05:00
  */
 
 /* eslint-env browser */
 import React from 'react';
 import { ProgressBar } from 'react-bootstrap';
 import { ipcRenderer } from 'electron';
-import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek';
+import { RIEInput, RIENumber } from 'riek';
 import _ from 'lodash';
 
 import ProfileImage from '../components/image_profile';
@@ -75,14 +75,36 @@ export default class ProfileScreen extends React.Component {
     });
 
     if (data.name === undefined) {
-      ipcRenderer.send('update-profile-info', {
-        data,
-      });
+      if (data.age !== undefined) {
+        ipcRenderer.send('update-profile-info', {
+          data: {
+            age: parseInt(data.age, 10),
+          },
+        });
+      } else if (data.weight !== undefined) {
+        ipcRenderer.send('update-profile-info', {
+          data: {
+            weight: parseInt(data.weight, 10),
+          },
+        });
+      } else if (data.height !== undefined) {
+        ipcRenderer.send('update-profile-info', {
+          data: {
+            height: parseInt(data.height, 10),
+          },
+        });
+      } else {
+        ipcRenderer.send('update-profile-info', {
+          data,
+        });
+      }
     } else {
       const res = data.name.split(' ');
       ipcRenderer.send('update-profile-info', {
-        firstname: res[0],
-        lastname: res[1],
+        data: {
+          firstname: res[0],
+          lastname: res[1],
+        },
       });
     }
 
@@ -112,6 +134,11 @@ export default class ProfileScreen extends React.Component {
       },
     });
     const data = x.calcBmi(inWeight, inHeight);
+    ipcRenderer.send('update-profile-info', {
+      data: {
+        bmi: parseFloat(data.value),
+      },
+    });
     switch (true) {
       case (data.value < 18.5):
         this.setState({
@@ -132,7 +159,6 @@ export default class ProfileScreen extends React.Component {
         });
         break;
       default:
-
     }
   }
 

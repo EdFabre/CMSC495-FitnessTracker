@@ -38,7 +38,7 @@ Clone and run the
 repository to run the Fittrac application:
 
 ```sh
-git clone https://github.com/EdFabre/CMSC495-FitnessTracker
+git clone https://github.com/EdFabre/CMSC495-FitnessTracker.git
 cd CMSC495-FitnessTracker
 npm install OR yarn
 npm start OR electron-forge start

@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: parse.js
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-11-21T11:15:13-05:00
+ * @Last modified time: 2017-12-09T18:03:36-05:00
  */
 
 // Class logger, managed by loggingManager.js
@@ -28,6 +28,7 @@ function capitalizeFirstLetter(string) {
 
 class User {
   constructor(userInfo) {
+    console.log(userInfo);
     this.initUserInfo(userInfo);
     logger.log('debug', 'New Parse User Object has been initialized.', {
       file: THISFILE,
@@ -71,28 +72,50 @@ class User {
     this.userInfo.phone = '555-555-5555';
     this.userInfo.image = 'http://res.cloudinary.com/cmsc495/image/upload/v1511299071/fittrac/profile_images/profile_default.png';
     this.userInfo.bmi = 23.4;
+    this.userInfo.events = '';
+    this.userInfo.exercise = '';
+    this.userInfo.foods = '';
   }
 
   updateUserInfo(userInfo) {
-    this.updateUserDoc('firstname', userInfo.firstname);
-    this.updateUserDoc('lastname', userInfo.lastname);
-    this.updateUserDoc('email', userInfo.email);
-    this.updateUserDoc('password', userInfo.password);
-    this.updateUserDoc('age', userInfo.age);
-    this.updateUserDoc('weight', userInfo.weight);
-    this.updateUserDoc('height', userInfo.height);
-    this.updateUserDoc('gender', userInfo.gender);
-    this.updateUserDoc('phone', userInfo.phone);
-    this.updateUserDoc('image', userInfo.image);
-    this.updateUserDoc('bmi', userInfo.bmi);
+    console.log(userInfo);
+    this.updateUserDoc('firstname', userInfo.data.firstname);
+    this.updateUserDoc('lastname', userInfo.data.lastname);
+    this.updateUserDoc('email', userInfo.data.email);
+    this.updateUserDoc('password', userInfo.data.password);
+    this.updateUserDoc('age', userInfo.data.age);
+    this.updateUserDoc('weight', userInfo.data.weight);
+    this.updateUserDoc('height', userInfo.data.height);
+    this.updateUserDoc('gender', userInfo.data.gender);
+    this.updateUserDoc('phone', userInfo.data.phone);
+    this.updateUserDoc('image', userInfo.data.image);
+    this.updateUserDoc('bmi', userInfo.data.bmi);
+    this.updateUserDoc('events', userInfo.data.events);
+    this.updateUserDoc('exercise', userInfo.data.exercise);
+    this.updateUserDoc('foods', userInfo.data.foods);
   }
 
   updateUserDoc(doc, newVal) {
-    this.placeholder = 'Hello World';
-    if (newVal) {
+    console.log(doc);
+    console.log(newVal);
+    if (newVal !== undefined) {
+      logger.log('silly', 'Starting Parse Push', {
+        file: THISFILE,
+        data: {
+          doc,
+          newVal,
+        },
+      });
       this.userInfo[doc] = newVal;
       Parse.User.current().set(doc, newVal);
       Parse.User.current().save();
+      logger.log('silly', 'Finished Parse Push', {
+        file: THISFILE,
+        data: {
+          doc,
+          newVal,
+        },
+      });
     }
   }
 
@@ -123,6 +146,9 @@ class User {
       this.user.set('phone', this.userInfo.phone);
       this.user.set('image', this.userInfo.image);
       this.user.set('bmi', this.userInfo.bmi);
+      this.user.set('events', this.userInfo.events);
+      this.user.set('exercise', this.userInfo.exercise);
+      this.user.set('foods', this.userInfo.foods);
 
       // TODO: Add more fields to signup?
       this.user.signUp().then((results) => {
@@ -204,6 +230,9 @@ class User {
       const weight = Parse.User.current().get('weight');
       const image = Parse.User.current().get('image');
       const bmi = Parse.User.current().get('bmi');
+      const events = Parse.User.current().get('events');
+      const exercise = Parse.User.current().get('exercise');
+      const foods = Parse.User.current().get('foods');
 
       logger.log('debug', 'Retrieving User Info', {
         file: THISFILE,
@@ -221,6 +250,9 @@ class User {
             weight,
             image,
             bmi,
+            events,
+            exercise,
+            foods,
           },
         },
       });
@@ -237,6 +269,9 @@ class User {
         weight,
         image,
         bmi,
+        events,
+        exercise,
+        foods,
       });
       if (session == null) {
         reject(false);
