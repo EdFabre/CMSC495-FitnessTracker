@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: parse.js
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-09T18:03:36-05:00
+ * @Last modified time: 2017-12-14T10:16:31-05:00
  */
 
 // Class logger, managed by loggingManager.js
@@ -72,9 +72,9 @@ class User {
     this.userInfo.phone = '555-555-5555';
     this.userInfo.image = 'http://res.cloudinary.com/cmsc495/image/upload/v1511299071/fittrac/profile_images/profile_default.png';
     this.userInfo.bmi = 23.4;
-    this.userInfo.events = '';
-    this.userInfo.exercise = '';
-    this.userInfo.foods = '';
+    this.userInfo.events = '[]';
+    this.userInfo.exercise = '[]';
+    this.userInfo.foods = '[]';
   }
 
   updateUserInfo(userInfo) {

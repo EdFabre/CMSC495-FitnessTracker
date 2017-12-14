@@ -1,11 +1,12 @@
 /**
  * @Author: Fabre Ed
- * @Date:   2017-11-20T14:56:42-05:00
+ * @Date:   2017-12-14T10:13:54-05:00
  * @Email:  edwidgefabre@gmail.com
- * @Filename: screen_excercise.jsx
+ * @Filename: add_nutrition.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-10T20:43:24-05:00
+ * @Last modified time: 2017-12-14T11:52:21-05:00
  */
+
 
 /* eslint-env browser */
 /* eslint max-len: ["error", { "code": 500 }] */
@@ -16,7 +17,7 @@ import DayPickerInput from 'react-datetime';
 import { Modal, Button, Panel } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import { ipcRenderer } from 'electron';
-import { RIEInput, RIENumber, RIESelect } from 'riek';
+import { RIENumber, RIESelect } from 'riek';
 import Fader from 'react-fader';
 import CalendarScreen from '../../calendar/screens/screen_calendar';
 
@@ -24,33 +25,22 @@ import CalendarScreen from '../../calendar/screens/screen_calendar';
 const logger = require('rekuire')('loggingManager.js').logger;
 const THISFILE = require('path').basename(__filename).toUpperCase();
 
-function caloriesBurnedPerMinute(excercise) {
+function caloriesGainedPerServing(excercise) {
   switch (excercise) {
-    case 'Walking':
-      return {
-        male: 4,
-        female: 5,
-      };
-    case 'Running':
-      return {
-        male: 12,
-        female: 14,
-      };
-    case 'Swimming':
-      return {
-        male: 9,
-        female: 10,
-      };
-    case 'Weight Lifting':
-      return {
-        male: 9,
-        female: 10,
-      };
+    case 'Ceasar Salad':
+      return 340;
+    case 'Burger':
+      return 520;
+    case 'Tbone Steak':
+      return 600;
+    case 'Rice':
+      return 150;
+    case 'Chicken(Grilled)':
+      return 200;
+    case 'Fish':
+      return 150;
     default:
-      return {
-        male: 1,
-        female: 1,
-      };
+      return 1;
   }
 }
 
@@ -65,43 +55,49 @@ function dateReviver(key, value) {
   return value;
 }
 
-export default class ExcerciseScreen extends React.Component {
+export default class NutritionScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       events: [],
-      exercise: [],
-      excerciseDuration: 60,
-      excerciseCBPM: {
-        male: 12,
-        female: 14,
-      },
+      foods: [],
+      servings: 1,
+      foodsCGPS: 340,
       showModal: true,
-      excerciseName: {
+      nutritionName: {
         id: '2',
-        text: 'Running',
+        text: 'Ceasar Salad',
       },
       selectOptions: [{
         id: '1',
-        text: 'Walking',
+        text: 'Burger',
       },
       {
         id: '2',
-        text: 'Running',
+        text: 'Ceasar Salad',
       },
       {
         id: '3',
-        text: 'Swimming',
+        text: 'Tbone Steak',
       },
       {
         id: '4',
-        text: 'Weight Lifting',
+        text: 'Rice',
+      },
+      {
+        id: '5',
+        text: 'Chicken(Grilled)',
+      },
+      {
+        id: '6',
+        text: 'Fish',
       },
       ],
       selectedDay: new Date(),
     };
+    this.cancel = this.cancel.bind(this);
     this.close = this.close.bind(this);
-    this.addExcercise = this.addExcercise.bind(this);
+    this.addFood = this.addFood.bind(this);
     this.handleDayChange = this.handleDayChange.bind(this);
   }
 
@@ -109,7 +105,7 @@ export default class ExcerciseScreen extends React.Component {
     ipcRenderer.send('get-profile-info');
     ipcRenderer.on('profile-info-result', (event, data) => {
       if (data.profileExists) {
-        logger.log('silly', 'Setting Excercise Info', {
+        logger.log('silly', 'Setting Nutrition Info', {
           file: THISFILE,
           data: {
             data,
@@ -124,41 +120,50 @@ export default class ExcerciseScreen extends React.Component {
   init(updates) {
     this.setState({
       events: JSON.parse(updates.events, dateReviver),
-      exercise: JSON.parse(updates.exercise, dateReviver),
+      foods: JSON.parse(updates.foods, dateReviver),
     });
+  }
+
+  cancel() {
+    this.setState({
+      showModal: false,
+    });
+    ReactDOM.render(<Fader><Panel><CalendarScreen /></Panel></Fader>,
+      document.getElementById(
+        'secondpanelcontent'));
   }
 
   close() {
     this.setState({
       showModal: false,
     });
-    const exerciseObj = {
-      name: this.state.excerciseName.text,
+    const nutritionObj = {
+      name: this.state.nutritionName.text,
       date: this.state.selectedDay,
-      duration: this.state.excerciseDuration,
-      cbpm: this.state.excerciseCBPM,
+      servings: this.state.servings,
+      cgps: this.state.foodsCGPS,
     };
 
     const eventObj = {
-      title: this.state.excerciseName.text,
+      title: this.state.nutritionName.text,
       start: this.state.selectedDay,
       end: this.state.selectedDay,
     };
 
-    this.state.exercise.push(exerciseObj);
+    this.state.foods.push(nutritionObj);
     this.state.events.push(eventObj);
 
-    logger.log('silly', 'Sending Excercise', {
+    logger.log('silly', 'Sending Food', {
       file: THISFILE,
       data: {
-        exercise: this.state.exercise,
+        foods: this.state.foods,
         events: this.state.events,
       },
     });
 
     ipcRenderer.send('update-profile-info', {
       data: {
-        exercise: JSON.stringify(this.state.exercise),
+        foods: JSON.stringify(this.state.foods),
         events: JSON.stringify(this.state.events),
       },
     });
@@ -173,24 +178,24 @@ export default class ExcerciseScreen extends React.Component {
     });
   }
 
-  addExcercise(data) {
+  addFood(data) {
     console.log(data);
-    logger.log('debug', 'Adding Excercise', {
+    logger.log('debug', 'Adding Food', {
       file: THISFILE,
       data: {
         data,
       },
     });
 
-    if (data.excerciseName !== undefined) {
+    if (data.nutritionName !== undefined) {
       this.setState({
-        excerciseName: data.excerciseName || this.state.excerciseName,
-        excerciseDuration: data.excerciseDuration || this.state.excerciseDuration,
-        excerciseCBPM: caloriesBurnedPerMinute(data.excerciseName.text),
+        nutritionName: data.nutritionName || this.state.nutritionName,
+        servings: data.servings || this.state.servings,
+        foodsCGPS: caloriesGainedPerServing(data.nutritionName.text),
       });
     } else {
       this.setState({
-        excerciseDuration: data.excerciseDuration || this.state.excerciseDuration,
+        servings: data.servings || this.state.servings,
       });
     }
   }
@@ -200,44 +205,45 @@ export default class ExcerciseScreen extends React.Component {
       <div>
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title>Add Exercise</Modal.Title>
+            <Modal.Title>Add Nutrition</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div>
-              <span>Exercise: </span>
+              <span>Nutrition: </span>
               <RIESelect
                 classEditing="editing"
                 highlight
-                value={this.state.excerciseName}
+                value={this.state.nutritionName}
                 options={this.state.selectOptions}
-                change={this.addExcercise}
+                change={this.addFood}
                 classLoading="loading"
-                propName="excerciseName"
+                propName="nutritionName"
               />
             </div>
             <div>
               <span>Date: </span>
-              <DayPickerInput
+              <span><DayPickerInput
                 value={this.state.selectedDay}
                 onChange={this.handleDayChange}
-              />
+              /></span>
             </div>
             <div>
-              <span>Duration(minutes): </span>
+              <span>Servings: </span>
               <RIENumber
                 classEditing="editing"
                 highlight
-                value={this.state.excerciseDuration}
-                propName="excerciseDuration"
-                change={this.addExcercise}
+                value={this.state.servings}
+                propName="servings"
+                change={this.addFood}
               />
             </div>
             <div>
-              <span>Calorie Burn: Male - {this.state.excerciseCBPM.male}/minute | Female - {this.state.excerciseCBPM.female}/minute</span>
+              <span>Calories Per Serving: {this.state.foodsCGPS}/serving</span>
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.close}>Close</Button>
+            <Button bsStyle="primary" bsSize="large" block onClick={this.close}>Enter Nutrition</Button>
+            <Button bsSize="large" block onClick={this.cancel}>Cancel</Button>
           </Modal.Footer>
         </Modal>
       </div>

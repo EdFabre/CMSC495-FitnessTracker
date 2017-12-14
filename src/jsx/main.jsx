@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: main.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-10T20:56:11-05:00
+ * @Last modified time: 2017-12-14T11:01:26-05:00
  */
 
 /* global document */
@@ -18,8 +18,8 @@ import { ipcRenderer } from 'electron';
 import ProfileScreen from './profile/screens/screen_profile';
 import CalendarScreen from './calendar/screens/screen_calendar';
 import DashScreen from './dashboard/screens/screen_dash';
-import ExcerciseScreen from './excercise/screens/screen_excercise';
-import NutritionScreen from './nutrition/screens/screen_nutrition';
+import ExcerciseScreen from './excercise/components/add_excercise';
+import NutritionScreen from './nutrition/components/add_nutrition';
 import LoginScreen from './authentication/screens/screen_auth';
 
 // Class logger, managed by loggingManager.js
@@ -83,12 +83,12 @@ export default class PanelMain extends React.Component {
             'secondpanelcontent'));
         break;
       case 5:
-        ReactDOM.render(
-          <Fader><Panel style={{
-            height: '500px',
-          }}
-          ><NutritionScreen /></Panel></Fader>,
-          document.getElementById('secondpanelcontent'));
+        this.setState({
+          key: 3,
+        });
+        ReactDOM.render(<Fader><Panel><NutritionScreen /></Panel></Fader>,
+          document.getElementById(
+            'secondpanelcontent'));
         break;
       case 6:
         ipcRenderer.send('logout-request', true);
@@ -134,6 +134,7 @@ export default class PanelMain extends React.Component {
             <Tab eventKey={2} title="Profile" />
             <Tab eventKey={3} title="Schedule" />
             <Tab eventKey={4} title="Exercise" />
+            <Tab eventKey={5} title="Nutrition" />
             <Tab eventKey={6} title="Logout" />
           </Tabs>
         </Panel>
