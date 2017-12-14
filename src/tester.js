@@ -19,10 +19,14 @@ const foods = '[{"name":"Tbone Steak","date":"2017-12-14T16:27:32.000Z","serving
 class Calories {
   constructor(opts) {
     this.dailyCalories = [];
+    this.caloriesIn = [];
+    this.caloriesOut = [];
     this.gender = opts.gender;
     this.exercises = JSON.parse(opts.exercises, this.dateReviver);
     this.foods = JSON.parse(opts.foods, this.dateReviver);
     this.initDailyCals();
+    this.generateCalsBurned();
+    this.generateCalsGained();
   }
 
   dateReviver(key, value) {
@@ -45,6 +49,8 @@ class Calories {
     endDate.setDate(endDate.getDate() + 90);
 
     this.generateDailyCalsArray(startDate, endDate);
+    this.generateCalsBurned();
+    this.generateCalsGained();
   }
 
   isInArray(array, value) {
@@ -68,16 +74,21 @@ class Calories {
     this.foods = opts.foods || this.foods;
   }
 
+  updateCals() {
+    for (let i = 0; i < this.dailyCalories.length; i++) {
+      this.dailyCalories[i];
+    }
+  }
+
   generateCalsBurned() {
     const temp = this.exercises;
-    const dailyCalsBurned = [];
     const existingDates = [];
 
     const initDate = temp[0].date;
     initDate.setHours(0, 0, 0, 0);
 
     existingDates.push(initDate);
-    dailyCalsBurned.push({
+    this.caloriesOut.push({
       date: initDate,
       calsBurned: 0,
     });
@@ -88,36 +99,34 @@ class Calories {
 
       if (!this.isInArray(existingDates, tempDate)) {
         existingDates.push(tempDate);
-        dailyCalsBurned.push({
+        this.caloriesOut.push({
           date: tempDate,
           calsBurned: 0,
         });
       }
 
-      for (let j = 0; j < dailyCalsBurned.length; j += 1) {
-        if (tempDate.getTime() === dailyCalsBurned[j].date.getTime()) {
+      for (let j = 0; j < this.caloriesOut.length; j += 1) {
+        if (tempDate.getTime() === this.caloriesOut[j].date.getTime()) {
           const calories = this.getCalsBurned(temp[i]);
           if (this.gender === 'male') {
-            dailyCalsBurned[j].calsBurned += calories.male;
+            this.caloriesOut[j].calsBurned += calories.male;
           } else {
-            dailyCalsBurned[j].calsBurned += calories.female;
+            this.caloriesOut[j].calsBurned += calories.female;
           }
         }
       }
     }
-    return dailyCalsBurned;
   }
 
   generateCalsGained() {
     const temp = this.foods;
-    const dailyCalsGained = [];
     const existingDates = [];
 
     const initDate = temp[0].date;
     initDate.setHours(0, 0, 0, 0);
 
     existingDates.push(initDate);
-    dailyCalsGained.push({
+    this.caloriesOut.push({
       date: initDate,
       calsGained: 0,
     });
@@ -128,20 +137,19 @@ class Calories {
 
       if (!this.isInArray(existingDates, tempDate)) {
         existingDates.push(tempDate);
-        dailyCalsGained.push({
+        this.caloriesOut.push({
           date: tempDate,
           calsGained: 0,
         });
       }
 
-      for (let j = 0; j < dailyCalsGained.length; j += 1) {
-        if (tempDate.getTime() === dailyCalsGained[j].date.getTime()) {
+      for (let j = 0; j < this.caloriesOut.length; j += 1) {
+        if (tempDate.getTime() === this.caloriesOut[j].date.getTime()) {
           const calories = this.getCalsGained(temp[i]);
-          dailyCalsGained[j].calsGained += calories;
+          this.caloriesOut[j].calsGained += calories;
         }
       }
     }
-    return dailyCalsGained;
   }
 
   print() {
@@ -149,7 +157,9 @@ class Calories {
       exercise: this.exercises.length,
       foods: this.foods.length,
       gender: this.gender,
-      dailyCalories: this.dailyCalories.length,
+      dailyCalories: this.dailyCalories,
+      caloriesIn: this.caloriesIn,
+      caloriesOut: this.caloriesOut,
     });
   }
 
