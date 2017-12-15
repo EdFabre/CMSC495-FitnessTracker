@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_excercise.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-14T11:29:18-05:00
+ * @Last modified time: 2017-12-14T18:31:43-05:00
  */
 
 /* eslint-env browser */
@@ -58,8 +58,7 @@ function dateReviver(key, value) {
     const a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(
       value);
     if (a) {
-      return new Date(Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4], +a[5], +
-        a[6]));
+      return new Date(Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4], +a[5], +a[6]));
     }
   }
   return value;
@@ -85,18 +84,18 @@ export default class ExcerciseScreen extends React.Component {
         id: '1',
         text: 'Walking',
       },
-        {
-          id: '2',
-          text: 'Running',
-        },
-        {
-          id: '3',
-          text: 'Swimming',
-        },
-        {
-          id: '4',
-          text: 'Weight Lifting',
-        },
+      {
+        id: '2',
+        text: 'Running',
+      },
+      {
+        id: '3',
+        text: 'Swimming',
+      },
+      {
+        id: '4',
+        text: 'Weight Lifting',
+      },
       ],
       selectedDay: new Date(),
     };
@@ -216,31 +215,31 @@ export default class ExcerciseScreen extends React.Component {
             <div>
               <span>Exercise: </span>
               <RIESelect
-      classEditing="editing"
-      highlight
-      value={this.state.excerciseName}
-      options={this.state.selectOptions}
-      change={this.addExcercise}
-      classLoading="loading"
-      propName="excerciseName"
-      />
+                classEditing="editing"
+                highlight
+                value={this.state.excerciseName}
+                options={this.state.selectOptions}
+                change={this.addExcercise}
+                classLoading="loading"
+                propName="excerciseName"
+              />
             </div>
             <div>
               <span>Date: </span>
               <span><DayPickerInput
-      value={this.state.selectedDay}
-      onChange={this.handleDayChange}
-      /></span>
+                value={this.state.selectedDay}
+                onChange={this.handleDayChange}
+              /></span>
             </div>
             <div>
               <span>Duration(minutes): </span>
               <RIENumber
-      classEditing="editing"
-      highlight
-      value={this.state.excerciseDuration}
-      propName="excerciseDuration"
-      change={this.addExcercise}
-      />
+                classEditing="editing"
+                highlight
+                value={this.state.excerciseDuration}
+                propName="excerciseDuration"
+                change={this.addExcercise}
+              />
             </div>
             <div>
               <span>Calorie Burn: Male - {this.state.excerciseCBPM.male}/minute | Female - {this.state.excerciseCBPM.female}/minute</span>
@@ -252,6 +251,6 @@ export default class ExcerciseScreen extends React.Component {
           </Modal.Footer>
         </Modal>
       </div>
-      );
+    );
   }
 }

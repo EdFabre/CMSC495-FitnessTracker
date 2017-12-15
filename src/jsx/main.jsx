@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: main.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-14T11:01:26-05:00
+ * @Last modified time: 2017-12-14T19:43:30-05:00
  */
 
 /* global document */
@@ -131,6 +131,7 @@ export default class PanelMain extends React.Component {
             id="main-nav"
             justified
           >
+            <Tab eventKey={1} title="Dashboard" />
             <Tab eventKey={2} title="Profile" />
             <Tab eventKey={3} title="Schedule" />
             <Tab eventKey={4} title="Exercise" />
