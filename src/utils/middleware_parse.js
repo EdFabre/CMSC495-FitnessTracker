@@ -72,6 +72,7 @@ class User {
     this.userInfo.phone = '555-555-5555';
     this.userInfo.image = 'http://res.cloudinary.com/cmsc495/image/upload/v1511299071/fittrac/profile_images/profile_default.png';
     this.userInfo.bmi = 23.4;
+    this.userInfo.calgoal = 0;
     this.userInfo.events = '[]';
     this.userInfo.exercise = '[]';
     this.userInfo.foods = '[]';
@@ -90,6 +91,7 @@ class User {
     this.updateUserDoc('phone', userInfo.data.phone);
     this.updateUserDoc('image', userInfo.data.image);
     this.updateUserDoc('bmi', userInfo.data.bmi);
+    this.updateUserDoc('calgoal', userInfo.data.calgoal);
     this.updateUserDoc('events', userInfo.data.events);
     this.updateUserDoc('exercise', userInfo.data.exercise);
     this.updateUserDoc('foods', userInfo.data.foods);
@@ -146,6 +148,7 @@ class User {
       this.user.set('phone', this.userInfo.phone);
       this.user.set('image', this.userInfo.image);
       this.user.set('bmi', this.userInfo.bmi);
+      this.user.set('calgoal', this.userInfo.calgoal);
       this.user.set('events', this.userInfo.events);
       this.user.set('exercise', this.userInfo.exercise);
       this.user.set('foods', this.userInfo.foods);
@@ -230,6 +233,7 @@ class User {
       const weight = Parse.User.current().get('weight');
       const image = Parse.User.current().get('image');
       const bmi = Parse.User.current().get('bmi');
+      const calgoal = Parse.User.current().get('calgoal');
       const events = Parse.User.current().get('events');
       const exercise = Parse.User.current().get('exercise');
       const foods = Parse.User.current().get('foods');
@@ -250,6 +254,7 @@ class User {
             weight,
             image,
             bmi,
+            calgoal,
             events,
             exercise,
             foods,
@@ -269,6 +274,7 @@ class User {
         weight,
         image,
         bmi,
+        calgoal,
         events,
         exercise,
         foods,

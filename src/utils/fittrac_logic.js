@@ -13,6 +13,7 @@
 
 const bmiCalc = require('bmi-calc');
 const moment = require('moment');
+const _ = require('lodash');
 
 class Fittrac {
   constructor(useImperial) {
@@ -82,13 +83,13 @@ class Calories {
 
   getCalsBurned(opts) {
     return {
-      male: opts.duration * opts.cbpm.male,
-      female: opts.duration * opts.cbpm.female,
+      male: _.parseInt(opts.duration) * _.parseInt(opts.cbpm.male),
+      female: _.parseInt(opts.duration) * _.parseInt(opts.cbpm.female),
     };
   }
 
   getCalsGained(opts) {
-    return opts.servings * opts.cgps;
+    return _.parseInt(opts.servings) * _.parseInt(opts.cgps);
   }
 
   update(opts) {
@@ -161,7 +162,7 @@ class Calories {
   generateCalsGained() {
     const temp = this.foods;
     const existingDates = [];
-
+    console.log(temp);
     const initDate = temp[0].date;
     initDate.setHours(0, 0, 0, 0);
 
