@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: add_nutrition.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-14T11:52:21-05:00
+ * @Last modified time: 2017-12-15T21:45:21-05:00
  */
 
 
@@ -19,7 +19,7 @@ import ReactDOM from 'react-dom';
 import { ipcRenderer } from 'electron';
 import { RIENumber, RIESelect } from 'riek';
 import Fader from 'react-fader';
-import CalendarScreen from '../../calendar/screens/screen_calendar';
+import DashScreen from '../../dashboard/screens/screen_dash';
 
 // Class logger, managed by loggingManager.js
 const logger = require('rekuire')('loggingManager.js').logger;
@@ -55,7 +55,7 @@ function dateReviver(key, value) {
   return value;
 }
 
-export default class NutritionScreen extends React.Component {
+export default class NutritionModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -128,7 +128,7 @@ export default class NutritionScreen extends React.Component {
     this.setState({
       showModal: false,
     });
-    ReactDOM.render(<Fader><Panel><CalendarScreen /></Panel></Fader>,
+    ReactDOM.render(<Fader><Panel><DashScreen /></Panel></Fader>,
       document.getElementById(
         'secondpanelcontent'));
   }
@@ -167,7 +167,7 @@ export default class NutritionScreen extends React.Component {
         events: JSON.stringify(this.state.events),
       },
     });
-    ReactDOM.render(<Fader><Panel><CalendarScreen /></Panel></Fader>,
+    ReactDOM.render(<Fader><Panel><DashScreen /></Panel></Fader>,
       document.getElementById(
         'secondpanelcontent'));
   }

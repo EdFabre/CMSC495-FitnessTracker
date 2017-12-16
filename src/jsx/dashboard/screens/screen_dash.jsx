@@ -4,26 +4,40 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_dash.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-14T22:09:05-05:00
+ * @Last modified time: 2017-12-15T22:33:42-05:00
  */
 
 
 /* eslint-env browser */
+/* eslint max-len: ["error", { "code": 500 }] */
+/* eslint class-methods-use-this: ["error", { "exceptMethods": [ "addNutrition", "addExcercise"] }] */
+
 import React from 'react';
-import { Jumbotron, Row, Col, Panel } from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import { Row, Col, Panel, Button } from 'react-bootstrap';
 import { ipcRenderer } from 'electron';
-import { RIENumber } from 'riek';
+import InputNumber from 'rc-input-number';
+import styled from 'styled-components';
+import nl2br from 'react-newline-to-break';
+
+import ExcerciseModal from '../../excercise/components/add_excercise';
+import NutritionModal from '../../nutrition/components/add_nutrition';
 
 // Class logger, managed by loggingManager.js
 const logger = require('rekuire')('loggingManager.js').logger;
 const THISFILE = require('path').basename(__filename).toUpperCase();
 const { Calories } = require('rekuire')('fittrac_logic');
 
-export default class App extends React.Component {
+
+export default class DashScreen extends React.Component {
   constructor() {
     super();
     this.state = {
+      name: '',
+      disabled: false,
+      readOnly: false,
       message: '',
+      messagecolor: 'black',
       calOut: 0,
       calIn: 0,
       calgoal: 0,
@@ -71,69 +85,136 @@ export default class App extends React.Component {
       calIn: stats.calsIn,
       balance: stats.calories,
       calgoal: updates.calgoal,
+      name: updates.firstname,
     });
     this.calculateProgress(updates.calgoal);
   }
 
-  dataChanged(data) {
+  addExcercise() {
+    ReactDOM.render(<Panel><ExcerciseModal /></Panel>,
+      document.getElementById(
+        'secondpanelcontent'));
+  }
+
+  addNutrition() {
+    ReactDOM.render(<Panel><NutritionModal /></Panel>,
+      document.getElementById(
+        'secondpanelcontent'));
+  }
+
+  dataChanged(calgoal) {
     logger.log('debug', 'Updating Caloric Value', {
       file: THISFILE,
       data: {
-        data,
+        calgoal,
       },
     });
 
     ipcRenderer.send('update-profile-info', {
       data: {
-        calgoal: parseInt(data.calgoal, 10),
+        calgoal,
       },
     });
 
     this.setState({
-      calgoal: data.calgoal,
+      calgoal,
     });
 
-    this.calculateProgress(data.calgoal);
+    this.calculateProgress(calgoal);
   }
 
   calculateProgress(goal) {
+    logger.log('silly', 'Calculating Progress', {
+      file: THISFILE,
+      data: {
+        goal,
+      },
+    });
     if (this.state.balance < goal) {
+      this.state.messagecolor = 'green';
       this.state.message = 'You are below target caloric level!';
     } else if (this.state.balance > goal) {
+      this.state.messagecolor = 'red';
       this.state.message = 'You are above target caloric level!';
     } else {
+      this.state.messagecolor = 'yellow';
       this.state.message = 'You are at target caloric level!';
     }
   }
 
   render() {
+    // Create a Title component that'll render an <h1> tag with some styles
+    const Title = styled.h1 `font-size: 2.5em; text-align: center; color: blue;`;
+    const CaloricValue = styled.p `font-size: 1em; text-align: center; color: black;`;
+
+    const Message = styled.h2 `
+    font-size: 2em;
+    text-align: center;
+    color: black;
+    &.black{
+    color: black;
+    }
+    &.green{
+    color: green;
+    }
+    &.red{
+    color: red;
+    }
+    &.yellow{
+    color: yellow;
+    }
+    `;
+    const myString = '\nHere is your daily progress!';
+    const newLine = '\n';
+
+    // Create a Wrapper component that'll render a <section> tag with some styles
     return (
       <Panel>
-        <Jumbotron>
-          <h1>{"Today's Progress"}</h1>
-          <Row>
-            <Col xs={4} md={4}>
-              <RIENumber
-                classEditing="editing"
-                value={this.state.calgoal}
-                propName="calgoal"
-                change={this.dataChanged}
-              />
-            </Col>
-            <Col xs={4} md={4}>{this.state.calIn}</Col>
-            <Col xs={4} md={4}>{this.state.calOut}</Col>
-            <Col xs={4} md={4}>{this.state.balance}</Col>
-          </Row>
-          <Row>
-            <Col xs={4} md={4}>{'Goal'}</Col>
-            <Col xs={4} md={4}>{'Calories In'}</Col>
-            <Col xs={4} md={4}>{'Calories Out'}</Col>
-            <Col xs={4} md={4}>{'Balance'}</Col>
-          </Row>
-          <Row>
-            <h3>{this.state.message}</h3>
-          </Row>
-        </Jumbotron>
+        <Title>
+        Hello {this.state.name},
+        {nl2br(myString)}
+          {nl2br(newLine)}
+        </Title>
+        <Row>
+          <Col xs={3}>
+            <InputNumber
+              min={-5000}
+              max={5000}
+              value={this.state.calgoal}
+              style={{
+                width: 100,
+              }}
+              step={100}
+              onChange={this.dataChanged}
+              disabled={this.state.disabled}
+              readOnly={this.state.readOnly}
+            />
+          </Col>
+          <Col xs={1}><CaloricValue>{'|'}</CaloricValue></Col>
+          <Col xs={2}><CaloricValue>{this.state.calIn}</CaloricValue></Col>
+          <Col xs={1}><CaloricValue>{'-'}</CaloricValue></Col>
+          <Col xs={2}><CaloricValue>{this.state.calOut}</CaloricValue></Col>
+          <Col xs={1}><CaloricValue>{'='}</CaloricValue></Col>
+          <Col xs={2}><CaloricValue>{this.state.balance}</CaloricValue></Col>
+        </Row>
+        <Row>
+          <Col xs={3}><CaloricValue>{'Goal'}</CaloricValue></Col>
+          <Col xs={1}><CaloricValue>{' '}</CaloricValue></Col>
+          <Col xs={2}><CaloricValue>{'Nutrition'}</CaloricValue></Col>
+          <Col xs={1}><CaloricValue>{' '}</CaloricValue></Col>
+          <Col xs={2}><CaloricValue>{'Excercise'}</CaloricValue></Col>
+          <Col xs={1}><CaloricValue>{' '}</CaloricValue></Col>
+          <Col xs={2}><CaloricValue>{'Net'}</CaloricValue></Col>
+        </Row>
+        <Row>
+          <Col xs={6} xsOffset={3}>
+            <Message className={this.state.messagecolor}>
+              {this.state.message}
+            </Message>
+          </Col>
+        </Row>
+        <Button bsStyle="primary" bsSize="large" block onClick={this.addExcercise}>Add Excercise</Button>
+        <Button bsStyle="success" bsSize="large" block onClick={this.addNutrition}>Add Nutrition</Button>
       </Panel>
     );
   }

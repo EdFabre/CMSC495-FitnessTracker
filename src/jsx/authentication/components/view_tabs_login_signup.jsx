@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: view_tabs_login_signup.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-11-21T17:22:19-05:00
+ * @Last modified time: 2017-12-15T19:08:57-05:00
  */
 
 import React from 'react';
@@ -22,7 +22,7 @@ export default class LoginSignupView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      key: 1,
+      key: 2,
     };
     this.handleSelect = this.handleSelect.bind(this);
   }

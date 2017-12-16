@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: fittrac_logic.js
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-14T21:46:19-05:00
+ * @Last modified time: 2017-12-15T22:26:05-05:00
  */
 
 
@@ -45,11 +45,26 @@ class Calories {
   }
 
   getDaysStats(day) {
+    if (this.dailyCalories.length === 0) {
+      return {
+        date: day,
+        calories: 0,
+        calsIn: 0,
+        calsOut: 0,
+      };
+    }
     for (let i = 0; i < this.dailyCalories.length; i += 1) {
       if (this.compareDates(this.dailyCalories[i].date, day)) {
         return this.dailyCalories[i];
       }
     }
+
+    return {
+      date: day,
+      calories: 0,
+      calsIn: 0,
+      calsOut: 0,
+    };
   }
 
   dateReviver(key, value) {
@@ -124,7 +139,9 @@ class Calories {
   generateCalsBurned() {
     const temp = this.exercises;
     const existingDates = [];
-
+    if (temp.length === 0) {
+      return;
+    }
     const initDate = temp[0].date;
     initDate.setHours(0, 0, 0, 0);
 
@@ -162,6 +179,9 @@ class Calories {
   generateCalsGained() {
     const temp = this.foods;
     const existingDates = [];
+    if (temp.length === 0) {
+      return;
+    }
     console.log(temp);
     const initDate = temp[0].date;
     initDate.setHours(0, 0, 0, 0);

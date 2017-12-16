@@ -4,14 +4,14 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: panel_login.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-11-22T13:51:45-05:00
+ * @Last modified time: 2017-12-15T22:16:17-05:00
  */
 
 /* global document */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Fader from 'react-fader';
-import { Alert, Form, Button, FormControl, FormGroup, Checkbox, Col, Panel } from 'react-bootstrap';
+import { Alert, Form, Button, FormControl, FormGroup, Col, Panel } from 'react-bootstrap';
 import { ipcRenderer } from 'electron';
 import MainScreen from '../../main';
 
@@ -110,17 +110,9 @@ export default class LoginForm extends React.Component {
             <FormGroup controlId="loginFormPassword">
               <FormControl type="password" placeholder="Password" />
             </FormGroup>
-            <FormGroup controlId="loginFormReset">
-              <Button bsStyle="link">Forgot Password?</Button>
-            </FormGroup>
             <FormGroup>
               <Col smOffset={2} sm={10}>
-                <Checkbox>Remember me</Checkbox>
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Col smOffset={2} sm={10}>
-                <Button bsStyle="success" type="submit">Log in</Button>
+                <Button bsStyle="success" block type="submit">Log in</Button>
               </Col>
             </FormGroup>
           </Form>

@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: main.js
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-11-22T12:54:09-05:00
+ * @Last modified time: 2017-12-15T22:14:55-05:00
  */
 
 import { app, BrowserWindow, ipcMain } from 'electron';
@@ -70,22 +70,6 @@ ipcMain.on('form-login-submission', (event, data) => {
     doneCallbacks => event.sender.send('login-result',
       doneCallbacks),
     failCallbacks => event.sender.send('login-result',
-      failCallbacks),
-  );
-});
-
-ipcMain.on('password-reset', (event, data) => {
-  logger.log('debug', 'Attempting to reset user password', {
-    file: THISFILE,
-    data: {
-      data,
-    },
-  });
-  user = new User(data);
-  user.resetPassword().then(
-    doneCallbacks => event.sender.send('password-reset-result',
-      doneCallbacks),
-    failCallbacks => event.sender.send('password-reset-result',
       failCallbacks),
   );
 });

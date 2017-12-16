@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_excercise.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-14T18:31:43-05:00
+ * @Last modified time: 2017-12-15T21:45:51-05:00
  */
 
 /* eslint-env browser */
@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom';
 import { ipcRenderer } from 'electron';
 import { RIENumber, RIESelect } from 'riek';
 import Fader from 'react-fader';
-import CalendarScreen from '../../calendar/screens/screen_calendar';
+import DashScreen from '../../dashboard/screens/screen_dash';
 
 // Class logger, managed by loggingManager.js
 const logger = require('rekuire')('loggingManager.js').logger;
@@ -64,7 +64,7 @@ function dateReviver(key, value) {
   return value;
 }
 
-export default class ExcerciseScreen extends React.Component {
+export default class ExcerciseModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -132,7 +132,7 @@ export default class ExcerciseScreen extends React.Component {
     this.setState({
       showModal: false,
     });
-    ReactDOM.render(<Fader><Panel><CalendarScreen /></Panel></Fader>,
+    ReactDOM.render(<Fader><Panel><DashScreen /></Panel></Fader>,
       document.getElementById(
         'secondpanelcontent'));
   }
@@ -171,7 +171,7 @@ export default class ExcerciseScreen extends React.Component {
         events: JSON.stringify(this.state.events),
       },
     });
-    ReactDOM.render(<Fader><Panel><CalendarScreen /></Panel></Fader>,
+    ReactDOM.render(<Fader><Panel><DashScreen /></Panel></Fader>,
       document.getElementById(
         'secondpanelcontent'));
   }
