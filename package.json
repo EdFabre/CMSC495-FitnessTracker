@@ -1,7 +1,7 @@
 {
   "name": "fittrac",
   "productName": "Fittrac",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "CMSC495 Fitness Tracking App",
   "main": "src/index.js",
   "scripts": {
