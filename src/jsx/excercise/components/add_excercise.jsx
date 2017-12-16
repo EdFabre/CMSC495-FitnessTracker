@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_excercise.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-15T21:45:51-05:00
+ * @Last modified time: 2017-12-16T16:14:26-05:00
  */
 
 /* eslint-env browser */
@@ -22,6 +22,11 @@ import DashScreen from '../../dashboard/screens/screen_dash';
 // Class logger, managed by loggingManager.js
 const logger = require('rekuire')('loggingManager.js').logger;
 const THISFILE = require('path').basename(__filename).toUpperCase();
+const moment = require('moment');
+
+function addDuration(day, duration, type) {
+  return moment(day).add(duration, type).toDate();
+}
 
 function caloriesBurnedPerMinute(excercise) {
   switch (excercise) {
@@ -151,7 +156,8 @@ export default class ExcerciseModal extends React.Component {
     const eventObj = {
       title: this.state.excerciseName.text,
       start: this.state.selectedDay,
-      end: this.state.selectedDay,
+      end: addDuration(this.state.selectedDay, this.state.excerciseDuration,
+        'm'),
     };
 
     this.state.exercise.push(exerciseObj);

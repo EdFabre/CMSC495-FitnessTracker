@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_dash.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-15T22:33:42-05:00
+ * @Last modified time: 2017-12-16T16:01:15-05:00
  */
 
 
@@ -131,14 +131,20 @@ export default class DashScreen extends React.Component {
       },
     });
     if (this.state.balance < goal) {
-      this.state.messagecolor = 'green';
-      this.state.message = 'You are below target caloric level!';
+      this.setState({
+        messagecolor: 'green',
+        message: 'You are below target caloric level!',
+      });
     } else if (this.state.balance > goal) {
-      this.state.messagecolor = 'red';
-      this.state.message = 'You are above target caloric level!';
+      this.setState({
+        messagecolor: 'red',
+        message: 'You are above target caloric level!',
+      });
     } else {
-      this.state.messagecolor = 'yellow';
-      this.state.message = 'You are at target caloric level!';
+      this.setState({
+        messagecolor: 'yellow',
+        message: 'You are at target caloric level!',
+      });
     }
   }
 
