@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_dash.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-16T23:38:22-05:00
+ * @Last modified time: 2017-12-16T23:58:17-05:00
  */
 
 
@@ -178,7 +178,7 @@ export default class DashScreen extends React.Component {
       <Panel>
         <Title>
         Hello {this.state.name},
-        {nl2br(myString)}
+          {nl2br(myString)}
           {nl2br(newLine)}
         </Title>
         <Row>
