@@ -4,7 +4,7 @@
  * @Email:  edwidgefabre@gmail.com
  * @Filename: screen_profile.jsx
  * @Last modified by:   Fabre Ed
- * @Last modified time: 2017-12-09T13:15:39-05:00
+ * @Last modified time: 2017-12-16T23:39:51-05:00
  */
 
 /* eslint-env browser */
@@ -162,10 +162,6 @@ export default class ProfileScreen extends React.Component {
     }
   }
 
-  customValidateText(text) {
-    return true;
-  }
-
   render() {
     return (
       <div className="row">
@@ -178,7 +174,6 @@ export default class ProfileScreen extends React.Component {
             <div className="info">
               <div className="title">
                 <RIEInput
-                  validate={this.customValidateText}
                   classEditing="editing"
                   value={this.state.name}
                   propName="name"
@@ -198,7 +193,6 @@ export default class ProfileScreen extends React.Component {
                 <div>
                   <span>Height: </span>
                   <RIENumber
-                    validate={this.customValidateText}
                     classEditing="editing"
                     value={this.state.height}
                     propName="height"
@@ -208,7 +202,6 @@ export default class ProfileScreen extends React.Component {
                 <div>
                   <span>Weight: </span>
                   <RIENumber
-                    validate={this.customValidateText}
                     classEditing="editing"
                     value={this.state.weight}
                     propName="weight"
@@ -218,7 +211,6 @@ export default class ProfileScreen extends React.Component {
                 <div>
                   <span>Gender: </span>
                   <RIEInput
-                    validate={this.customValidateText}
                     classEditing="editing"
                     value={this.state.gender}
                     propName="gender"
@@ -228,7 +220,6 @@ export default class ProfileScreen extends React.Component {
                 <div>
                   <span>Phone: </span>
                   <RIEInput
-                    validate={this.customValidateText}
                     classEditing="editing"
                     value={this.state.phone}
                     propName="phone"
