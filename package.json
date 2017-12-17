@@ -1,7 +1,7 @@
 {
   "name": "fittrac",
   "productName": "Fittrac",
-  "version": "1.0.1",
+  "version": "3.0.0",
   "description": "CMSC495 Fitness Tracking App",
   "main": "src/index.js",
   "scripts": {
@@ -31,13 +31,14 @@
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
-        "out": "Releases",
         "platform": "all",
         "dir": "src"
       },
       "electronWinstallerConfig": {
         "name": "Fittrac",
+        "authors": "Ed Fabre",
         "setupExe": "FittracSetup.exe",
+        "outputDirectory": "release-builds/windows-installer",
         "setupIcon": "src/assets/icons/win/fittrac.ico"
       },
       "electronInstallerDMG": {
