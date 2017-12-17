@@ -31,13 +31,14 @@
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
-        "out": "Releases",
         "platform": "all",
         "dir": "src"
       },
       "electronWinstallerConfig": {
         "name": "Fittrac",
+        "authors": "Ed Fabre",
         "setupExe": "FittracSetup.exe",
+        "outputDirectory": "release-builds/windows-installer",
         "setupIcon": "src/assets/icons/win/fittrac.ico"
       },
       "electronInstallerDMG": {
