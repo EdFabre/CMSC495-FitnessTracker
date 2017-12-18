@@ -9,10 +9,10 @@ FitTrac is a very interactive fitness tracker which can be used in order to adva
 If you would like to run the app on your platform please choose the relevant distributable below to install and run our app.
 
 #### Windows
+[WinInstaller](release-builds/windows-installer)
 
 #### Mac
-
-#### Linux
+[MacInstaller](release-builds/mac-installer)
 
 
 ### Developers
